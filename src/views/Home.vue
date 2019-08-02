@@ -10,8 +10,12 @@
     <div v-for="contact in contacts">
       <p>{{ contact.first_name }}</p>
       <p>{{ contact.last_name }}</p>
-      <p>{{ contact.email }}</p>
-      <p>{{ contact.phone_number }}</p>
+      
+      <button v-on:click="showContact(contact)">Show more</button>
+      <div v-if="currentContact === contact">
+        <p>{{ contact.email }}</p>
+        <p>{{ contact.phone_number }}</p>
+      </div>
       <hr>
     </div>
   </div>
@@ -25,6 +29,7 @@ export default {
   data: function() {
     return {
       contacts: [],
+      currentContact: {},
       newContactFirstName: "",
       newContactLastName: "",
       newContactEmail: "",
@@ -51,6 +56,13 @@ export default {
         this.newContactEmail = "";
         this.newContactPhoneNumber = "";
       });
+    },
+    showContact: function(contact) {
+      if (this.currentContact === contact) {
+        this.currentContact = {};
+      } else {
+        this.currentContact = contact;
+      }
     }
   }
 };
