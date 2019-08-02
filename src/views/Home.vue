@@ -10,11 +10,17 @@
     <div v-for="contact in contacts">
       <p>{{ contact.first_name }}</p>
       <p>{{ contact.last_name }}</p>
-      
+  
       <button v-on:click="showContact(contact)">Show more</button>
       <div v-if="currentContact === contact">
         <p>{{ contact.email }}</p>
         <p>{{ contact.phone_number }}</p>
+
+        <p>First Name: <input type="text" v-model="contact.first_name"></p>
+        <p>Last Name: <input type="text" v-model="contact.last_name"></p>
+        <p>Email: <input type="text" v-model="contact.email"></p>
+        <p>Phone Number: <input type="text" v-model="contact.phone_number"></p>
+        <button v-on:click="updateContact(contact)">Update Contact</button>
       </div>
       <hr>
     </div>
@@ -63,6 +69,18 @@ export default {
       } else {
         this.currentContact = contact;
       }
+    },
+    updateContact: function(contact) {
+      var params = {
+        first_name: contact.first_name,
+        last_name: contact.last_name,
+        email: contact.email,
+        phone_number: contact.phone_number
+      };
+      console.log('in the update contact');
+      axios.patch('/api/contacts/' + contact.id, params).then(response => {
+        this.currentContact = {};
+      });
     }
   }
 };
